@@ -26,16 +26,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Start from clean state
+    # Checkout the repository and all submodules to be able to properly build the case_monolithic.ttl file.
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+
+    - name: Clean Build Artifacts
       run: make clean
-    - name: Run tests
+
+    - name: Run Tests
       run: make check
+      
+    - name: Rename File
+      run: cp tests/case_monolithic.ttl ./case-0.5.0-$(date +%F).ttl
+
     # Upload the consolidated ontology into a TTL file that can be downloaded and used for validation purposes. 
-    # The `make check` process creates a file in tests/case_monolithic.ttl. This file is then uploaded to 
-    # GitHub as an artifact for easier consumption and adoption.
+    # The `make check` process creates a file in tests/case_monolithic.ttl. This file is then renamed and 
+    # uploaded to GitHub as an artifact for easier consumption and adoption.
     - name: Upload CASE TTL File
       uses: actions/upload-artifact@v2
       with:
         name: case-ontology
-        path: tests/case_monolithic.ttl
+        path: case-0.5.0-$(date +%F).ttl
