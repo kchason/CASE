@@ -16,7 +16,7 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ master, develop, pending-adoption ]
   pull_request:
     branches: [ master, develop ]
 
@@ -31,3 +31,11 @@ jobs:
       run: make clean
     - name: Run tests
       run: make check
+    # Upload the consolidated ontology into a TTL file that can be downloaded and used for validation purposes. 
+    # The `make check` process creates a file in tests/case_monolithic.ttl. This file is then uploaded to 
+    # GitHub as an artifact for easier consumption and adoption.
+    - name: Upload PyTest Coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: case-ontology
+        path: tests/case_monolithic.ttl
