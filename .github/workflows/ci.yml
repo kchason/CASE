@@ -34,7 +34,7 @@ jobs:
     # Upload the consolidated ontology into a TTL file that can be downloaded and used for validation purposes. 
     # The `make check` process creates a file in tests/case_monolithic.ttl. This file is then uploaded to 
     # GitHub as an artifact for easier consumption and adoption.
-    - name: Upload PyTest Coverage
+    - name: Upload CASE TTL File
       uses: actions/upload-artifact@v2
       with:
         name: case-ontology
