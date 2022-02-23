@@ -39,7 +39,7 @@ jobs:
       run: make check
       
     - name: Rename File
-      run: cp tests/case_monolithic.ttl ./case-0.5.0-$(date +%F).ttl
+      run: cp tests/case_monolithic.ttl ./case-0.5.0-$(date +%F).ttl && ls ./case-*
 
     # Upload the consolidated ontology into a TTL file that can be downloaded and used for validation purposes. 
     # The `make check` process creates a file in tests/case_monolithic.ttl. This file is then renamed and 
@@ -48,4 +48,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: case-ontology
-        path: case-0.5.0-$(date +%F).ttl
+        path: case-*.ttl
