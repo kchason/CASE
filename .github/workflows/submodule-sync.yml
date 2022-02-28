@@ -1,5 +1,8 @@
 name: Submodule Update
 
+# Checks for updates to the submodules and re-points the submodule reference to the head of the specified branch
+# Reference: https://stackoverflow.com/questions/64407333/using-github-actions-to-automatically-update-the-repos-submodules
+
 on:
   # Allows you to run this workflow manually from the Actions tab or through HTTP API
   workflow_dispatch:
@@ -25,10 +28,14 @@ jobs:
         submodules: 'recursive'
 
     # Update references
-    - name: Git Sumbodule Update
+    - name: Git Submodule Update
       run: |
         git pull --recurse-submodules
         git submodule update --remote --recursive
+        cd dependencies/UCO
+        git checkout pending-adoption
+        git pull
+        cd ../..
 
     - name: Commit update
       run: |
