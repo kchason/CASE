@@ -16,7 +16,7 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ master, develop, pending-adoption ]
+    branches: [ master, develop ]
   pull_request:
     branches: [ master, develop ]
 
@@ -36,6 +36,7 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '8'
+  
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
