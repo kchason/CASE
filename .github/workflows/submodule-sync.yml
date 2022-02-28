@@ -1,10 +1,10 @@
+name: Submodule Update
+
 on:
   # Allows you to run this workflow manually from the Actions tab or through HTTP API
   workflow_dispatch:
   push:
     branches: [ master, develop, pending-adoption ]
-  pull_request:
-    branches: [ master, develop ]
 
 jobs:
   sync:
@@ -22,7 +22,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.CI_TOKEN }}
-        submodules: true
+        submodules: 'recursive'
 
     # Update references
     - name: Git Sumbodule Update
