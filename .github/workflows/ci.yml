@@ -42,16 +42,13 @@ jobs:
       with:
         python-version: 3.9
 
+    # Clean up any remaining artifacts from previous runs
     - name: Clean Build Artifacts
       run: make clean
 
     # Check both UCO and CASE so it properly builds the tests/case_monolithic.ttl
     - name: Run Tests
-      run: |
-        cd dependencies/UCO/
-        make check
-        cd ../../
-        make check
+      run: make check
     
     # Rename the file from the monolithic to a more consumable version
     - name: Rename File
