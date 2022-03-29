@@ -53,7 +53,7 @@ jobs:
     
     # Rename the file from the monolithic to a more consumable version
     - name: Rename File
-      run: cp tests/case_monolithic.ttl ./case-0.5.0-$(date +%F).ttl && ls ./case-*
+      run: cp tests/case_monolithic.ttl ./case-0.6.0-$(date +%F).ttl && ls ./case-*
 
     # Upload the consolidated ontology into a TTL file that can be downloaded and used for validation purposes. 
     # The `make check` process creates a file in tests/case_monolithic.ttl. This file is then renamed and 
