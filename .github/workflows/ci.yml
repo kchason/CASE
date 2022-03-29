@@ -26,8 +26,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Start from clean state
+    # Checkout the repository and all submodules to be able to properly build the case_monolithic.ttl file.
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+        
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '8'
+  
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    # Clean up any remaining artifacts from previous runs
+    - name: Clean Build Artifacts
       run: make clean
-    - name: Run tests
+
+    # Check both UCO and CASE so it properly builds the tests/case_monolithic.ttl
+    - name: Run Tests
+      continue-on-error: true
       run: make check
+    
+    # Rename the file from the monolithic to a more consumable version
+    - name: Rename File
+      run: cp tests/case_monolithic.ttl ./case-0.6.0-$(date +%F).ttl && ls ./case-*
+
+    # Upload the consolidated ontology into a TTL file that can be downloaded and used for validation purposes. 
+    # The `make check` process creates a file in tests/case_monolithic.ttl. This file is then renamed and 
+    # uploaded to GitHub as an artifact for easier consumption and adoption.
+    - name: Upload CASE TTL File
+      uses: actions/upload-artifact@v2
+      with:
+        name: case-ontology
+        path: case-*.ttl
